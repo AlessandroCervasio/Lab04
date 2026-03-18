@@ -28,7 +28,25 @@ class View(object):
 
         # Add your stuff here
 
-        # self.page.add([])
+        self.language_dd=ft.Dropdown(width=220, label="Select language", options=[ft.dropdown.Option("italian"),
+                                                                                  ft.dropdown.Option("english"),
+                                                                                  ft.dropdown.Option("spanish")],
+                                     on_change=self.__controller.handleLanguage)
+        self._lvOut=ft.ListView(expand=True)
+        self._txtMod_dd= ft.Dropdown(label="Search modality", options= [ft.dropdown.Option("Default"),
+                                                                        ft.dropdown.Option("Linear"),
+                                                                        ft.dropdown.Option("Dichotomic")],
+                                     on_change=self.__controller.handleModality
+                                     )
+
+        self._txtTesto=ft.TextField(label="Insert text here")
+        self.btnStart=ft.ElevatedButton(text="Spell check", on_click=self.__controller.handleSpellcheck)
+
+        row1=ft.Row(controls=[self.language_dd])
+        row2=ft.Row(controls=[self._txtMod_dd,self._txtTesto,self.btnStart])
+
+
+        self.page.add(row1,row2,self._lvOut)
 
         self.page.update()
 
@@ -51,3 +69,4 @@ class View(object):
         #     ft.colors.GREY_900 if self.page.theme_mode == ft.ThemeMode.DARK else ft.colors.GREY_300
         # )
         self.page.update()
+

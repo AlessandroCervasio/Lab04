@@ -2,11 +2,37 @@ import time
 import flet as ft
 import model as md
 
+
 class SpellChecker:
 
     def __init__(self, view):
+        self._modality = None
+        self._txtInTesto = None
         self._multiDic = md.MultiDictionary()
         self._view = view
+        self._language=None
+
+    def handleLanguage(self,e):
+        self._language=self._view.language_dd.value
+        self._view._lvOut.controls.append(ft.Text(f"Selected language: {self._language}", size=22))
+        self._view.page.update()
+        return
+    def handleModality(self,e):
+        self._modality=self._view._txtMod_dd.value
+        self._view._lvOut.controls.append(ft.Text(f"Selected modality: {self._modality}", size=22))
+        self._view.page.update()
+        return
+
+
+    def handleSpellcheck(self,e):
+        self._txtInTesto=self._view._txtTesto.value
+        traduzione=self.handleSentence(self._txtInTesto,self._language, self._modality)
+        self._view._lvOut.controls.append(ft.Text(f"Text: {self._view._txtTesto.value}", size=22))
+        self._view._lvOut.controls.append(ft.Text(f"Unknown words: {traduzione[0]} ", size=22))
+        self._view._lvOut.controls.append(ft.Text(f"Search time: {traduzione[1]} s", size=22))
+        self._view.page.update()
+
+        return
 
     def handleSentence(self, txtIn, language, modality):
         txtIn = replaceChars(txtIn.lower())
