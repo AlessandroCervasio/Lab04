@@ -13,13 +13,13 @@ class SpellChecker:
         self._language=None
 
     def handleLanguage(self,e):
+        self._view._lvOut.controls.clear()
         self._language=self._view.language_dd.value
-        self._view._lvOut.controls.append(ft.Text(f"Selected language: {self._language}", size=22))
         self._view.page.update()
         return
     def handleModality(self,e):
+        self._view._lvOut.controls.clear()
         self._modality=self._view._txtMod_dd.value
-        self._view._lvOut.controls.append(ft.Text(f"Selected modality: {self._modality}", size=22))
         self._view.page.update()
         return
 
@@ -27,12 +27,18 @@ class SpellChecker:
     def handleSpellcheck(self,e):
         self._txtInTesto=self._view._txtTesto.value
         traduzione=self.handleSentence(self._txtInTesto,self._language, self._modality)
+        self._view._lvOut.controls.clear()
+        self._view._lvOut.controls.append(ft.Text(f"Selected language: {self._language}", size=22))
+        self._view._lvOut.controls.append(ft.Text(f"Selected modality: {self._modality}", size=22))
+
         self._view._lvOut.controls.append(ft.Text(f"Text: {self._view._txtTesto.value}", size=22))
         self._view._lvOut.controls.append(ft.Text(f"Unknown words: {traduzione[0]} ", size=22))
         self._view._lvOut.controls.append(ft.Text(f"Search time: {traduzione[1]} s", size=22))
         self._view.page.update()
 
         return
+
+
 
     def handleSentence(self, txtIn, language, modality):
         txtIn = replaceChars(txtIn.lower())
